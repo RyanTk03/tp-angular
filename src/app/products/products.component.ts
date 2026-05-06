@@ -18,15 +18,28 @@ export class ProductsComponent {
   }
 
   getAllProducts() {
-    this.products = this.productService.getAllProducts();
+    this.productService.getAllProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+      },
+      error: () => {
+        console.log('error on getAllProducts');
+      }
+    });
   }
 
   handleDelete(product: Product) {
     const v = confirm('êtes vous sûre de vouloir suprimer?');
 
     if (v) {
-      this.productService.deleteProduct(product);
-      this.getAllProducts();
+      this.productService.deleteProduct(product).subscribe({
+        next: () => {
+          this.getAllProducts();
+        },
+        error: () => {
+          console.log('error on deleteProduct');
+        }
+      });
     }
   }
 }

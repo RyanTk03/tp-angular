@@ -1,23 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../../types/models/product';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  products = [
-    { id: 0, name: 'Computer', price: 12000, selected: true },
-    { id: 1, name: 'Printer', price: 9000, selected: false },
-    { id: 2, name: 'Smart Phone', price: 2300, selected: true },
-  ];
+  API_ENDPOINT = 'http://localhost:8080/products';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getAllProducts() {
-    return this.products;
+    return this.http.get<Product[]>(this.API_ENDPOINT);
   }
 
   deleteProduct(product: Product) {
-    this.products = this.products.filter(p => p.id !== product.id);
+    return this.http.delete<void>(`${this.API_ENDPOINT}/${product.id}`);
   }
 }
