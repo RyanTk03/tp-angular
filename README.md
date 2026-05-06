@@ -1,59 +1,92 @@
-# TpAngular
+# tp-angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.22.
+A small Angular 19 lab project covering the basics — standalone components, routing, services, and HTTP calls to a REST API. Inside this app products can be listed and managed.
 
-## Development server
+---
 
-To start a local development server, run:
+## What it does
+
+- **`/home`** — home page
+- **`/products`** — product table with ID, name, price, and selection status. Products can be deleted any product (with a confirmation prompt), and the list refreshes automatically.
+
+The project was built up in three step:
+1. Static product list hardcoded in the component
+2. Logic moved into a `ProductService`
+3. Service wired up to a real REST API via `HttpClient`
+
+---
+
+## Project structure (main files and folder only)
+
+```
+src/
+├── app/
+│   ├── home/                  # Home component
+│   ├── products/              # Product list component
+│   ├── services/
+│   │   └── product.service.ts # GET & DELETE calls
+│   ├── app.config.ts          # Router + HttpClient setup
+│   └── app.routes.ts          # Route definitions
+├── types/
+│   └── models/
+│       └── product.ts         # Product interface
+└── main.ts
+```
+
+**Product model**
+
+```typescript
+export interface Product {
+  id: number;
+  name: string;
+  price: number;
+  selected: boolean;
+}
+```
+
+---
+
+## Backend API
+
+The app expects a local backend running at `http://localhost:8080`.
+
+| Method   | Endpoint          | Description        |
+|----------|-------------------|--------------------|
+| `GET`    | `/products`       | Fetch all products |
+| `DELETE` | `/products/:id`   | Delete a product   |
+
+---
+
+## Stack
+
+| | Version |
+|---|---|
+| Angular | 19.2.x |
+| TypeScript | ~5.7.2 |
+| Bootstrap | ^5.3.8 |
+| RxJS | ~7.8.0 |
+
+---
+
+## Getting started
 
 ```bash
+# Install dependencies
+npm install
+
+# Start the dev server
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Then open [http://localhost:4200](http://localhost:4200). The app reloads automatically on file changes.
 
-## Code scaffolding
+**Prerequisites:** Node.js 18+ and Angular CLI (`npm install -g @angular/cli`)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Other commands
 
 ```bash
-ng generate --help
+ng test    # Run unit tests (Karma + Jasmine)
+ng build   # Production build → dist/
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
